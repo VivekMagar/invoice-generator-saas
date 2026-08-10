@@ -1,0 +1,27 @@
+// app/layout.tsx
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+// Ignore missing type declarations for CSS side-effect import
+// @ts-ignore
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'InvoiceAI — Professional Invoices in Seconds',
+  description: 'AI-powered invoice generator for freelancers. Create, send and track invoices effortlessly.',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        {children}
+      </body>
+    </html>
+  )
+}
