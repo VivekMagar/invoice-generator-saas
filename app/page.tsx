@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 const featureCards = [
   {
@@ -87,6 +89,39 @@ export default function LandingPage() {
   const totalPreview = useMemo(() => {
     return demoItems.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
   }, [demoItems])
+
+  // Export a high-quality PDF for demo invoices (available to free users)
+  function exportDemoPDF() {
+    if (!demoItems || demoItems.length === 0) return
+
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' })
+
+    // Header
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(20)
+    doc.text('InvoiceAI', 40, 60)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(10)
+    doc.setTextColor(120)
+    doc.text(`Invoice ${previewInvoiceNumber}`, 40, 80)
+    doc.text(`Due: ${dueDate}`, 40, 96)
+
+    // Items table
+    autoTable(doc, {
+      startY: 140,
+      head: [['Description', 'Qty', 'Unit', 'Amount']],
+      body: demoItems.map(i => [i.description, String(i.quantity), `€${i.unitPrice.toFixed(2)}`, formatCurrency(i.quantity * i.unitPrice)]),
+      styles: { fontSize: 11 },
+      headStyles: { fillColor: [30, 30, 26], textColor: 255 },
+    })
+
+    const finalY = (doc as any).lastAutoTable?.finalY ?? 300
+    doc.setFontSize(12)
+    doc.setTextColor(0)
+    doc.text(`Total: ${formatCurrency(totalPreview)}`, 420, finalY + 30)
+
+    doc.save(`${previewInvoiceNumber}.pdf`)
+  }
 
   const dueDate = useMemo(() => {
     const date = new Date()
@@ -248,6 +283,14 @@ export default function LandingPage() {
 
                   <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-200">
                     Estimated total: {formatCurrency(totalPreview)}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={exportDemoPDF}
+                      className="mt-3 inline-flex items-center gap-2 rounded-xl bg-white/6 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+                    >
+                      ⬇ Export PDF (HD)
+                    </button>
                   </div>
                 </div>
               )}

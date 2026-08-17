@@ -122,33 +122,33 @@ export default function NewInvoicePage() {
 
   // ── PDF export
   function exportPDF() {
-    const doc = new jsPDF()
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' })
 
     // Header
     doc.setFont('helvetica', 'bold')
-    doc.setFontSize(22)
-    doc.text(fromName || 'InvoiceAI', 14, 20)
+    doc.setFontSize(24)
+    doc.text(fromName || 'InvoiceAI', 40, 60)
     doc.setFont('helvetica', 'normal')
-    doc.setFontSize(10)
+    doc.setFontSize(11)
     doc.setTextColor(120)
-    doc.text(`Invoice ${invoiceNumber}`, 14, 28)
-    doc.text(`Issue date: ${issueDate}`, 14, 34)
-    doc.text(`Due date: ${dueDate}`, 14, 40)
+    doc.text(`Invoice ${invoiceNumber}`, 40, 82)
+    doc.text(`Issue date: ${issueDate}`, 40, 98)
+    doc.text(`Due date: ${dueDate}`, 40, 114)
 
     // From / To
     doc.setTextColor(0)
     doc.setFont('helvetica', 'bold')
-    doc.setFontSize(9)
-    doc.text('FROM', 14, 56)
-    doc.text('BILL TO', 110, 56)
-    doc.setFont('helvetica', 'normal')
     doc.setFontSize(10)
-    doc.text([fromName, fromEmail, fromAddress].filter(Boolean), 14, 62)
-    doc.text([clientName, clientEmail, clientAddress].filter(Boolean), 110, 62)
+    doc.text('FROM', 40, 140)
+    doc.text('BILL TO', 330, 140)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(11)
+    doc.text([fromName, fromEmail, fromAddress].filter(Boolean), 40, 156)
+    doc.text([clientName, clientEmail, clientAddress].filter(Boolean), 330, 156)
 
     // Items table
     autoTable(doc, {
-      startY: 90,
+      startY: 190,
       head: [['Description', 'Qty', 'Rate (€)', 'Total (€)']],
       body: items.map(i => [
         i.description,
@@ -156,19 +156,19 @@ export default function NewInvoicePage() {
         i.rate.toFixed(2),
         i.total.toFixed(2),
       ]),
-      styles: { fontSize: 10 },
+      styles: { fontSize: 11 },
       headStyles: { fillColor: [30, 30, 26], textColor: 255 },
     })
 
-    const finalY = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10
-    doc.setFontSize(10)
+    const finalY = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 14
+    doc.setFontSize(11)
     doc.setTextColor(80)
-    doc.text(`Subtotal: €${subtotal.toFixed(2)}`, 140, finalY)
-    doc.text(`VAT (${VAT_RATE}%): €${vatAmount.toFixed(2)}`, 140, finalY + 6)
+    doc.text(`Subtotal: €${subtotal.toFixed(2)}`, 420, finalY)
+    doc.text(`VAT (${VAT_RATE}%): €${vatAmount.toFixed(2)}`, 420, finalY + 12)
     doc.setFont('helvetica', 'bold')
     doc.setTextColor(0)
-    doc.setFontSize(12)
-    doc.text(`Total: €${total.toFixed(2)}`, 140, finalY + 14)
+    doc.setFontSize(14)
+    doc.text(`Total: €${total.toFixed(2)}`, 420, finalY + 30)
 
     if (notes) {
       doc.setFont('helvetica', 'normal')
@@ -278,7 +278,7 @@ export default function NewInvoicePage() {
             onClick={exportPDF}
             className="text-sm border border-gray-200 text-gray-600 font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            ⬇ PDF
+            ⬇ Export PDF (HD)
           </button>
           <button
             onClick={handleSave}
