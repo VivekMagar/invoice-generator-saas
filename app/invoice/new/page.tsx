@@ -259,75 +259,75 @@ export default function NewInvoicePage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
-        <div className="flex items-center gap-4">
-          <button onClick={() => window.location.href = '/dashboard'} className="text-sm text-gray-400 hover:text-gray-700 transition-colors">
+      <header className="sticky top-0 z-10 flex flex-col gap-3 border-b border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <button onClick={() => window.location.href = '/dashboard'} className="text-sm text-gray-400 transition-colors hover:text-gray-700">
             ← Dashboard
           </button>
-          <span className="text-gray-200">|</span>
+          <span className="hidden text-gray-200 sm:inline">|</span>
           <div className="font-semibold text-gray-800">New Invoice</div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 sm:gap-2">
           <button
             onClick={() => setActiveTab(activeTab === 'form' ? 'preview' : 'form')}
-            className="text-sm border border-gray-200 text-gray-600 font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 sm:px-4"
           >
             {activeTab === 'form' ? '👁 Preview' : '✏️ Edit'}
           </button>
           <button
             onClick={exportPDF}
-            className="text-sm border border-gray-200 text-gray-600 font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 sm:px-4"
           >
             ⬇ Export PDF (HD)
           </button>
           <button
             onClick={handleSave}
             disabled={saving || saved}
-            className="text-sm bg-gray-900 text-white font-semibold px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
+            className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700 disabled:opacity-50"
           >
             {saved ? '✓ Saved!' : saving ? 'Saving...' : 'Save Invoice'}
           </button>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-8">
+      <main className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-8">
         {activeTab === 'preview' ? (
           <InvoicePreview />
         ) : (
           <div className="space-y-6">
 
             {/* AI Box */}
-            <div className="bg-[#1a1714] border border-yellow-500/20 rounded-2xl p-5">
-              <p className="text-yellow-300 text-xs font-bold uppercase tracking-widest mb-1">✦ AI Line Item Generator</p>
-              <p className="text-gray-400 text-sm mb-3">Describe your work briefly — Claude will write your invoice items.</p>
-              <div className="flex gap-2">
+            <div className="rounded-2xl border border-yellow-500/20 bg-[#1a1714] p-4 sm:p-5">
+              <p className="mb-1 text-xs font-bold uppercase tracking-widest text-yellow-300">✦ AI Line Item Generator</p>
+              <p className="mb-3 text-sm text-gray-400">Describe your work briefly — Claude will write your invoice items.</p>
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <input
                   value={aiPrompt}
                   onChange={e => setAiPrompt(e.target.value)}
                   placeholder="e.g. Built a landing page and logo for a restaurant client"
-                  className="flex-1 bg-white/8 border border-white/12 rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-yellow-500/50 transition-colors"
+                  className="flex-1 rounded-lg border border-white/12 bg-white/8 px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none transition-colors focus:border-yellow-500/50"
                   onKeyDown={e => e.key === 'Enter' && runAI()}
                 />
                 <button
                   onClick={runAI}
                   disabled={aiLoading}
-                  className="bg-yellow-500 text-black text-sm font-bold px-4 py-2.5 rounded-lg hover:bg-yellow-400 transition-colors disabled:opacity-50 whitespace-nowrap"
+                  className="whitespace-nowrap rounded-lg bg-yellow-500 px-4 py-2.5 text-sm font-bold text-black transition-colors hover:bg-yellow-400 disabled:opacity-50"
                 >
                   {aiLoading ? '...' : 'Generate ✦'}
                 </button>
               </div>
               {aiMessage && (
-                <p className={`text-xs mt-2 ${aiMessage.startsWith('✦') ? 'text-yellow-400' : 'text-red-400'}`}>
+                <p className={`mt-2 text-xs ${aiMessage.startsWith('✦') ? 'text-yellow-400' : 'text-red-400'}`}>
                   {aiMessage}
                 </p>
               )}
             </div>
 
             {/* From / To */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-3">Your Details</p>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Your Details</p>
                   <div className="space-y-3">
                     {[
                       { label: 'Your name / company', val: fromName, set: setFromName, placeholder: 'Dan Sayu — Dev' },
@@ -335,19 +335,19 @@ export default function NewInvoicePage() {
                       { label: 'Your address', val: fromAddress, set: setFromAddress, placeholder: 'Constanța, Romania' },
                     ].map(f => (
                       <div key={f.label}>
-                        <label className="text-xs text-gray-400 block mb-1">{f.label}</label>
+                        <label className="mb-1 block text-xs text-gray-400">{f.label}</label>
                         <input
                           value={f.val}
                           onChange={e => f.set(e.target.value)}
                           placeholder={f.placeholder}
-                          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition-colors focus:border-yellow-400"
                         />
                       </div>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-3">Client Details</p>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Client Details</p>
                   <div className="space-y-3">
                     {[
                       { label: 'Client name', val: clientName, set: setClientName, placeholder: 'Acme Corp' },
@@ -355,12 +355,12 @@ export default function NewInvoicePage() {
                       { label: 'Client address', val: clientAddress, set: setClientAddress, placeholder: 'Bucharest, Romania' },
                     ].map(f => (
                       <div key={f.label}>
-                        <label className="text-xs text-gray-400 block mb-1">{f.label}</label>
+                        <label className="mb-1 block text-xs text-gray-400">{f.label}</label>
                         <input
                           value={f.val}
                           onChange={e => f.set(e.target.value)}
                           placeholder={f.placeholder}
-                          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition-colors focus:border-yellow-400"
                         />
                       </div>
                     ))}
@@ -370,20 +370,20 @@ export default function NewInvoicePage() {
             </div>
 
             {/* Invoice meta */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6">
-              <div className="grid grid-cols-3 gap-4">
+            <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
                   { label: 'Invoice number', val: invoiceNumber, set: setInvoiceNumber, type: 'text' },
                   { label: 'Issue date', val: issueDate, set: setIssueDate, type: 'date' },
                   { label: 'Due date', val: dueDate, set: setDueDate, type: 'date' },
                 ].map(f => (
                   <div key={f.label}>
-                    <label className="text-xs text-gray-400 block mb-1">{f.label}</label>
+                    <label className="mb-1 block text-xs text-gray-400">{f.label}</label>
                     <input
                       type={f.type}
                       value={f.val}
                       onChange={e => f.set(e.target.value)}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-yellow-400 transition-colors"
+                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition-colors focus:border-yellow-400"
                     />
                   </div>
                 ))}
@@ -391,66 +391,70 @@ export default function NewInvoicePage() {
             </div>
 
             {/* Line items */}
-            <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-              <div className="grid grid-cols-[3fr_80px_100px_100px_40px] gap-2 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">
-                <span>Description</span><span>Qty</span><span>Rate (€)</span><span>Total</span><span />
-              </div>
+            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              <div className="overflow-x-auto">
+                <div className="min-w-[700px]">
+                  <div className="grid grid-cols-[3fr_80px_100px_100px_40px] gap-2 border-b border-gray-100 bg-gray-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                    <span>Description</span><span>Qty</span><span>Rate (€)</span><span>Total</span><span />
+                  </div>
 
-              {items.map(item => (
-                <div key={item.id} className="grid grid-cols-[3fr_80px_100px_100px_40px] gap-2 px-5 py-3 border-b border-gray-50 items-center">
-                  <input
-                    value={item.description}
-                    onChange={e => updateItem(item.id, 'description', e.target.value)}
-                    placeholder="Service description"
-                    className="border border-transparent rounded-lg px-2 py-1.5 text-sm outline-none focus:border-gray-200 bg-transparent focus:bg-gray-50 transition-all w-full"
-                  />
-                  <input
-                    type="number" min="1"
-                    value={item.quantity}
-                    onChange={e => updateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
-                    className="border border-transparent rounded-lg px-2 py-1.5 text-sm outline-none focus:border-gray-200 bg-transparent focus:bg-gray-50 transition-all w-full"
-                  />
-                  <input
-                    type="number" min="0"
-                    value={item.rate}
-                    onChange={e => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)}
-                    className="border border-transparent rounded-lg px-2 py-1.5 text-sm outline-none focus:border-gray-200 bg-transparent focus:bg-gray-50 transition-all w-full"
-                  />
-                  <span className="text-sm font-semibold text-gray-700 px-2">€{item.total.toFixed(2)}</span>
+                  {items.map(item => (
+                    <div key={item.id} className="grid grid-cols-[3fr_80px_100px_100px_40px] items-center gap-2 border-b border-gray-50 px-5 py-3">
+                      <input
+                        value={item.description}
+                        onChange={e => updateItem(item.id, 'description', e.target.value)}
+                        placeholder="Service description"
+                        className="w-full rounded-lg border border-transparent bg-transparent px-2 py-1.5 text-sm outline-none transition-all focus:border-gray-200 focus:bg-gray-50"
+                      />
+                      <input
+                        type="number" min="1"
+                        value={item.quantity}
+                        onChange={e => updateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
+                        className="w-full rounded-lg border border-transparent bg-transparent px-2 py-1.5 text-sm outline-none transition-all focus:border-gray-200 focus:bg-gray-50"
+                      />
+                      <input
+                        type="number" min="0"
+                        value={item.rate}
+                        onChange={e => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)}
+                        className="w-full rounded-lg border border-transparent bg-transparent px-2 py-1.5 text-sm outline-none transition-all focus:border-gray-200 focus:bg-gray-50"
+                      />
+                      <span className="px-2 text-sm font-semibold text-gray-700">€{item.total.toFixed(2)}</span>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="flex h-8 w-8 items-center justify-center rounded-lg text-lg font-bold text-gray-300 transition-colors hover:bg-red-50 hover:text-red-400"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+
                   <button
-                    onClick={() => removeItem(item.id)}
-                    className="text-gray-300 hover:text-red-400 transition-colors text-lg font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50"
+                    onClick={addItem}
+                    className="w-full px-5 py-3 text-left text-sm font-semibold text-yellow-600 transition-colors hover:bg-yellow-50/50"
                   >
-                    ×
+                    + Add item
                   </button>
-                </div>
-              ))}
 
-              <button
-                onClick={addItem}
-                className="w-full text-left px-5 py-3 text-sm text-yellow-600 font-semibold hover:bg-yellow-50/50 transition-colors"
-              >
-                + Add item
-              </button>
-
-              {/* Totals */}
-              <div className="flex justify-end px-5 py-4 border-t border-gray-100 bg-gray-50/50">
-                <div className="w-52 space-y-1.5 text-sm">
-                  <div className="flex justify-between text-gray-500"><span>Subtotal</span><span>€{subtotal.toFixed(2)}</span></div>
-                  <div className="flex justify-between text-gray-500"><span>VAT ({VAT_RATE}%)</span><span>€{vatAmount.toFixed(2)}</span></div>
-                  <div className="flex justify-between font-bold text-base border-t border-gray-200 pt-2 mt-2"><span>Total Due</span><span>€{total.toFixed(2)}</span></div>
+                  {/* Totals */}
+                  <div className="flex justify-end border-t border-gray-100 bg-gray-50/50 px-5 py-4">
+                    <div className="w-full space-y-1.5 text-sm sm:w-52">
+                      <div className="flex justify-between text-gray-500"><span>Subtotal</span><span>€{subtotal.toFixed(2)}</span></div>
+                      <div className="flex justify-between text-gray-500"><span>VAT ({VAT_RATE}%)</span><span>€{vatAmount.toFixed(2)}</span></div>
+                      <div className="mt-2 flex justify-between border-t border-gray-200 pt-2 text-base font-bold"><span>Total Due</span><span>€{total.toFixed(2)}</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Notes */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-5">
-              <label className="text-xs text-gray-400 uppercase tracking-wider font-semibold block mb-2">Notes / Payment Terms</label>
+            <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-5">
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-400">Notes / Payment Terms</label>
               <textarea
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
                 rows={3}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-yellow-400 transition-colors resize-none"
+                className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition-colors focus:border-yellow-400"
               />
             </div>
 

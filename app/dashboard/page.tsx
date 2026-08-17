@@ -94,38 +94,38 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+      <header className="flex flex-col gap-3 border-b border-gray-200 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <div className="font-serif text-xl font-bold text-gray-900">
           Invoice<span className="text-yellow-500 italic">AI</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-700 uppercase tracking-wide">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+          <span className="rounded-full bg-yellow-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-yellow-700 sm:text-xs">
             {profile?.plan || 'free'} plan
           </span>
           {profile?.plan === 'free' && (
             <button
               onClick={() => redirectToCheckout('pro', profile?.id || '', profile?.email || '')}
-              className="text-xs bg-yellow-500 text-black font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-400 transition-colors"
+              className="rounded-lg bg-yellow-500 px-3 py-1.5 text-[10px] font-bold text-black transition-colors hover:bg-yellow-400 sm:text-xs"
             >
               Upgrade to Pro ✦
             </button>
           )}
-          <button onClick={signOut} className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={signOut} className="text-sm text-gray-400 transition-colors hover:text-gray-600">
             Sign out
           </button>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-8 py-10">
+      <main className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-5 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5">
           {[
             { label: 'Total invoices', value: stats.total },
             { label: 'Paid invoices', value: stats.paid },
             { label: 'Outstanding', value: `€${stats.outstanding.toFixed(2)}` },
           ].map(s => (
-            <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-5">
-              <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">{s.label}</p>
+            <div key={s.label} className="rounded-xl border border-gray-200 bg-white p-5">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">{s.label}</p>
               <p className="text-2xl font-bold text-gray-900">{s.value}</p>
             </div>
           ))}
@@ -133,7 +133,7 @@ export default function DashboardPage() {
 
         {/* Free plan limit warning */}
         {profile?.plan === 'free' && (
-          <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 mb-6 flex items-center justify-between">
+          <div className="mb-6 flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-amber-800">
               <strong>{thisMonthCount}/3</strong> invoices used this month on free plan.
               {!canCreate && ' You\'ve reached your limit.'}
@@ -141,7 +141,7 @@ export default function DashboardPage() {
             {!canCreate && (
               <button
                 onClick={() => redirectToCheckout('pro', profile?.id || '', profile?.email || '')}
-                className="text-xs bg-yellow-500 text-black font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-400 transition-colors whitespace-nowrap ml-4"
+                className="ml-0 whitespace-nowrap rounded-lg bg-yellow-500 px-3 py-1.5 text-[10px] font-bold text-black transition-colors hover:bg-yellow-400 sm:ml-4 sm:text-xs"
               >
                 Upgrade to Pro →
               </button>
@@ -150,68 +150,70 @@ export default function DashboardPage() {
         )}
 
         {/* Invoices table */}
-        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <div className="flex flex-col gap-3 border-b border-gray-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <h2 className="font-semibold text-gray-800">Your Invoices</h2>
             <button
               onClick={() => canCreate ? window.location.href = '/invoice/new' : null}
               disabled={!canCreate}
-              className="text-sm bg-gray-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
             >
               + New Invoice
             </button>
           </div>
 
           {invoices.length === 0 ? (
-            <div className="text-center py-16 text-gray-400">
-              <p className="text-4xl mb-3">📄</p>
-              <p className="font-medium text-gray-600 mb-1">No invoices yet</p>
+            <div className="py-16 text-center text-gray-400">
+              <p className="mb-3 text-4xl">📄</p>
+              <p className="mb-1 font-medium text-gray-600">No invoices yet</p>
               <p className="text-sm">Create your first invoice to get started</p>
               <button
                 onClick={() => window.location.href = '/invoice/new'}
-                className="mt-5 text-sm bg-yellow-500 text-black font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-400 transition-colors"
+                className="mt-5 rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-bold text-black transition-colors hover:bg-yellow-400"
               >
                 Create first invoice →
               </button>
             </div>
           ) : (
-            <table className="w-full">
-              <thead>
-                <tr className="text-xs text-gray-400 uppercase tracking-wider border-b border-gray-100">
-                  <th className="text-left px-6 py-3 font-semibold">Invoice</th>
-                  <th className="text-left px-6 py-3 font-semibold">Client</th>
-                  <th className="text-left px-6 py-3 font-semibold">Date</th>
-                  <th className="text-left px-6 py-3 font-semibold">Amount</th>
-                  <th className="text-left px-6 py-3 font-semibold">Status</th>
-                  <th className="px-6 py-3" />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {invoices.map(inv => (
-                  <tr key={inv.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-mono font-medium text-gray-700">{inv.invoice_number}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{inv.client_name || '—'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {inv.issue_date ? new Date(inv.issue_date).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—'}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-semibold text-gray-800">€{inv.total.toFixed(2)}</td>
-                    <td className="px-6 py-4">
-                      <span className={`text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide ${statusColor[inv.status]}`}>
-                        {inv.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => window.location.href = `/invoice/${inv.id}`}
-                        className="text-xs text-gray-400 hover:text-gray-700 font-medium transition-colors"
-                      >
-                        View →
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-[720px] w-full">
+                <thead>
+                  <tr className="border-b border-gray-100 text-xs uppercase tracking-wider text-gray-400">
+                    <th className="px-6 py-3 text-left font-semibold">Invoice</th>
+                    <th className="px-6 py-3 text-left font-semibold">Client</th>
+                    <th className="px-6 py-3 text-left font-semibold">Date</th>
+                    <th className="px-6 py-3 text-left font-semibold">Amount</th>
+                    <th className="px-6 py-3 text-left font-semibold">Status</th>
+                    <th className="px-6 py-3" />
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {invoices.map(inv => (
+                    <tr key={inv.id} className="transition-colors hover:bg-gray-50/50">
+                      <td className="px-6 py-4 text-sm font-mono font-medium text-gray-700">{inv.invoice_number}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{inv.client_name || '—'}</td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {inv.issue_date ? new Date(inv.issue_date).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—'}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-semibold text-gray-800">€{inv.total.toFixed(2)}</td>
+                      <td className="px-6 py-4">
+                        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide ${statusColor[inv.status]}`}>
+                          {inv.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button
+                          onClick={() => window.location.href = `/invoice/${inv.id}`}
+                          className="text-xs font-medium text-gray-400 transition-colors hover:text-gray-700"
+                        >
+                          View →
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </main>

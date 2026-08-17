@@ -157,67 +157,67 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#0d0b09] text-white">
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-white/10">
-        <div className="font-serif text-xl font-bold">
+      <nav className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-4 sm:px-8">
+        <div className="font-serif text-lg font-bold sm:text-xl">
           Invoice<span className="text-yellow-400 italic">AI</span>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
           <Link
             href="/login"
-            className="text-sm text-gray-400 hover:text-white transition-colors px-4 py-2"
+            className="px-3 py-2 text-xs text-gray-400 transition-colors hover:text-white sm:px-4 sm:text-sm"
           >
             Log in
           </Link>
           <Link
             href="/signup"
-            className="text-sm bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors"
+            className="rounded-lg bg-yellow-500 px-3 py-2 text-xs font-semibold text-black transition-colors hover:bg-yellow-400 sm:px-4 sm:text-sm"
           >
             Get started free
           </Link>
         </div>
       </nav>
 
-      <section className="max-w-5xl mx-auto px-8 pt-24 pb-16 text-center">
-        <div className="inline-block bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
+      <section className="mx-auto max-w-5xl px-4 pb-12 pt-14 text-center sm:px-8 sm:pt-20 lg:pt-24">
+        <div className="mb-6 inline-block rounded-full border border-yellow-500/30 bg-yellow-500/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-yellow-300 sm:text-xs">
           ✦ AI-Powered
         </div>
-        <h1 className="text-5xl font-serif font-bold leading-tight mb-6">
+        <h1 className="mb-6 text-4xl font-serif font-bold leading-tight sm:text-5xl lg:text-6xl">
           Invoices that look <em className="text-yellow-400 italic">expensive.</em>
-          <br />Done in seconds.
+          <br className="hidden sm:block" />Done in seconds.
         </h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+        <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg">
           Stop wasting time on paperwork. InvoiceAI generates professional invoices,
           contracts & proposals — powered by Claude AI.
         </p>
 
-        <div className="max-w-sm mx-auto bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="mx-auto max-w-sm rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
           <div className="flex flex-col gap-3">
             <Link
               href="/signup"
-              className="bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm hover:bg-yellow-400 transition-colors text-center"
+              className="rounded-lg bg-yellow-500 px-4 py-2.5 text-center text-sm font-bold text-black transition-colors hover:bg-yellow-400"
             >
               Create free account →
             </Link>
             <Link
               href="/login"
-              className="bg-white/8 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white text-center hover:border-yellow-500/60 transition-colors"
+              className="rounded-lg border border-white/15 bg-white/8 px-4 py-2.5 text-center text-sm text-white transition-colors hover:border-yellow-500/60"
             >
               Login to your account
             </Link>
           </div>
-          <p className="text-gray-600 text-xs mt-3">No credit card required</p>
+          <p className="mt-3 text-xs text-gray-600">No credit card required</p>
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-8 pb-8">
+      <section className="mx-auto max-w-5xl px-4 pb-8 sm:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
+            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-yellow-400">Free preview</p>
-                <h2 className="mt-2 text-2xl font-semibold">Generate invoices without signing in</h2>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-yellow-400 sm:text-xs">Free preview</p>
+                <h2 className="mt-2 text-xl font-semibold sm:text-2xl">Generate invoices without signing in</h2>
               </div>
-              <span className="rounded-full bg-yellow-500/10 px-3 py-1 text-xs font-semibold text-yellow-300">
+              <span className="inline-flex rounded-full bg-yellow-500/10 px-3 py-1 text-[10px] font-semibold text-yellow-300 sm:text-xs">
                 {remainingFreeGenerations} / {FREE_DEMO_LIMIT} free uses left
               </span>
             </div>
@@ -245,9 +245,9 @@ export default function LandingPage() {
             )}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-yellow-400">Invoice preview</p>
-            <div className="mt-4 rounded-2xl border border-white/10 bg-[#11110f] p-5">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-yellow-400 sm:text-xs">Invoice preview</p>
+            <div className="mt-4 rounded-2xl border border-white/10 bg-[#11110f] p-4 sm:p-5">
               {demoItems.length === 0 ? (
                 <div className="space-y-3 text-sm text-gray-400">
                   <p>Your free invoice preview will appear here.</p>
@@ -309,15 +309,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-8 py-16">
-        <div className="grid grid-cols-3 gap-6">
+      <section className="mx-auto max-w-5xl px-4 py-12 sm:px-8 sm:py-16">
+        <div className="grid gap-6 md:grid-cols-3">
           {featureCards.map((feature) => (
-            <div key={feature.title} className="bg-white/4 border border-white/8 rounded-2xl p-6">
-              <div className="w-9 h-9 bg-yellow-500/15 rounded-lg flex items-center justify-center text-yellow-400 mb-4 text-sm font-bold">
+            <div key={feature.title} className="rounded-2xl border border-white/8 bg-white/4 p-5 sm:p-6">
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-500/15 text-sm font-bold text-yellow-400">
                 {feature.icon}
               </div>
-              <h3 className="font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{feature.desc}</p>
+              <h3 className="mb-2 font-semibold">{feature.title}</h3>
+              <p className="text-sm leading-relaxed text-gray-500">{feature.desc}</p>
             </div>
           ))}
         </div>
