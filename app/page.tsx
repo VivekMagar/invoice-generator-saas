@@ -310,14 +310,16 @@ export default function LandingPage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-8 sm:py-16">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 md:gap-6">
           {featureCards.map((feature) => (
-            <div key={feature.title} className="rounded-2xl border border-white/8 bg-white/4 p-5 sm:p-6">
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-500/15 text-sm font-bold text-yellow-400">
+            <div key={feature.title} className="flex items-start gap-4 rounded-2xl border border-white/8 bg-white/4 p-4 sm:block sm:p-6">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-yellow-500/15 text-sm font-bold text-yellow-400 sm:mb-4">
                 {feature.icon}
               </div>
-              <h3 className="mb-2 font-semibold">{feature.title}</h3>
-              <p className="text-sm leading-relaxed text-gray-500">{feature.desc}</p>
+              <div className="min-w-0">
+                <h3 className="mb-2 break-words font-semibold">{feature.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{feature.desc}</p>
+              </div>
             </div>
           ))}
         </div>
